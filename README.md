@@ -1,249 +1,340 @@
-# 🎙️ Grammar Scoring Engine from Voice Samples
+# **🎙️ Grammar Scoring Engine for Spoken Audio**
 
-**SHL AI Research Intern Assessment - Option 2**
+**SHL Intern Hiring Assessment 2025**
 
-An advanced, production-ready system for evaluating grammar quality from voice recordings using state-of-the-art speech recognition and NLP techniques.
+A comprehensive machine learning solution for evaluating the grammatical quality of spoken audio samples on a scale of 1-5 (MOS Likert Scale). This project combines state-of-the-art speech recognition (Whisper) with advanced NLP techniques for multi-dimensional grammar analysis.
 
-## 🌟 Features
+## **📚 Table of Contents**
 
-- **High-Accuracy Transcription**: Whisper-based ASR with multiple model sizes
-- **Multi-Dimensional Grammar Scoring**: 
-  - Syntax correctness
-  - Grammar error detection
-  - Fluency metrics
-  - Readability scores
-- **Audio Quality Assessment**: Pre-transcription quality checks
-- **Confidence Metrics**: Reliability indicators for each score
-- **REST API**: Easy integration with FastAPI
-- **Interactive Web Demo**: User-friendly interface
-- **Comprehensive Evaluation**: Detailed metrics and visualizations
+* [Competition Overview](https://www.google.com/search?q=%23-competition-overview)  
+* [Project Results](https://www.google.com/search?q=%23-project-results)  
+* [Key Features](https://www.google.com/search?q=%23-key-features)  
+* [Pipeline Architecture](https://www.google.com/search?q=%23%EF%B8%8F-pipeline-architecture)  
+* [Technologies & Libraries](https://www.google.com/search?q=%23-technologies--libraries)  
+* [Installation & Setup](https://www.google.com/search?q=%23-installation--setup)  
+* [Quick Start](https://www.google.com/search?q=%23-quick-start)  
+* [Project Deliverables](https://www.google.com/search?q=%23-project-deliverables)  
+* [Project Structure](https://www.google.com/search?q=%23-project-structure)  
+* [Methodology](https://www.google.com/search?q=%23-methodology)  
+* [Performance Metrics](https://www.google.com/search?q=%23-performance-metrics)  
+* [Key Insights](https://www.google.com/search?q=%23-key-insights)  
+* [Future Improvements](https://www.google.com/search?q=%23-future-improvements)  
+* [Author & Submission](https://www.google.com/search?q=%23-author--submission)  
+* [Acknowledgments](https://www.google.com/search?q=%23-acknowledgments)  
+* [License](https://www.google.com/search?q=%23-license)
 
-## 🏗️ Architecture
+## **🎯 Competition Overview**
 
-```
-┌─────────────┐    ┌──────────────┐    ┌─────────────┐    ┌──────────────┐
-│   Audio     │ -> │   Audio      │ -> │     ASR     │ -> │   Grammar    │
-│   Input     │    │ Preprocessing│    │  (Whisper)  │    │   Analysis   │
-└─────────────┘    └──────────────┘    └─────────────┘    └──────────────┘
-                          │                    │                   │
-                          ↓                    ↓                   ↓
-                   Quality Check         Confidence          Error Types
-                                                                  ↓
-                                                          ┌──────────────┐
-                                                          │    Final     │
-                                                          │    Score     │
-                                                          └──────────────┘
-```
+This is a submission for the Kaggle competition **SHL Intern Hiring Assessment 2025 \- Grammar Scoring Engine**.
 
-## 📦 Installation
+* **Task**: Predict MOS Likert grammar scores (1-5) for spoken audio.  
+* **Training Dataset**: 409 audio samples (45-60 seconds each) with MOS Likert grammar scores (1-5).  
+* **Test Dataset**: 197 audio samples for prediction.  
+* **Evaluation Metrics**: RMSE and Pearson Correlation.  
+* **Format**: WAV audio files
 
-### Prerequisites
-- Python 3.9+
-- FFmpeg (for audio processing)
+## **📊 Project Results**
 
-### Setup
+* **Training Samples**: 402/409 processed (**98.3%** success rate)  
+* **Test Samples**: 197 predictions generated  
+* **RMSE (Training)**: **0.76**  
+* **Pearson Correlation**: **0.084**  
+* **Average Processing Time**: \~6 seconds per audio file
 
-```bash
-# Clone the repository
-git clone <your-repo-url>
-cd SHL-Internship
+## **🌟 Key Features**
 
-# Create virtual environment
-python -m venv venv
-venv\Scripts\activate  # Windows
-# source venv/bin/activate  # Linux/Mac
+* **State-of-the-Art ASR**: OpenAI Whisper (base model) for accurate transcription.  
+* **Multi-Dimensional Grammar Analysis**:  
+  * Syntax correctness (30% weight) \- spaCy dependency parsing  
+  * Grammar error detection (30% weight) \- LanguageTool  
+  * Fluency metrics (20% weight) \- Speech pattern analysis  
+  * Readability scores (20% weight) \- Flesch-Kincaid metrics  
+* **Intelligent Calibration**: Linear regression to map 0-10 scores to 1-5 MOS scale.  
+* **Audio Quality Assessment**: Pre-transcription quality checks.  
+* **Robust Error Handling**: Fallback mechanisms for failed transcriptions.  
+* **Comprehensive Jupyter Notebook**: Complete analysis with visualizations.
 
-# Install dependencies
-pip install -r requirements.txt
+## **🏗️ Pipeline Architecture**
 
-# Download spaCy model
-python -m spacy download en_core_web_sm
+Audio Input (WAV)  
+↓  
+Audio Preprocessing (Noise Reduction, Normalization)  
+↓  
+Quality Assessment (SNR, Clarity)  
+↓  
+ASR \- Whisper Base Model (Transcription)  
+↓  
+Grammar Analysis (Multi-Dimensional)  
+├── Syntax Analysis (spaCy) → 30%  
+├── Error Detection (LanguageTool) → 30%  
+├── Fluency Metrics (NLTK) → 20%  
+└── Readability (Flesch-Kincaid) → 20%  
+↓  
+Raw Score (0-10 scale)  
+↓  
+Calibration (Linear Regression)  
+↓  
+Final Score (1-5 MOS Likert Scale)
 
-# Download NLTK data
-python -c "import nltk; nltk.download('punkt'); nltk.download('averaged_perceptron_tagger')"
-```
+## **🛠️ Technologies & Libraries**
 
-## 🚀 Quick Start
+| Category | Technology | Purpose |
+| :---- | :---- | :---- |
+| ASR | OpenAI Whisper | State-of-the-art speech recognition |
+| NLP | spaCy 3.8 | Syntax analysis, dependency parsing |
+| Grammar | LanguageTool | Grammar error detection |
+| Audio | librosa 0.10 | Audio processing, feature extraction |
+| Audio | noisereduce | Noise reduction |
+| ML | scikit-learn | Calibration, metrics |
+| API | FastAPI | REST API framework |
+| DL | PyTorch 2.0+ | Whisper model backend |
+| Data | pandas, numpy | Data manipulation |
+| Viz | matplotlib, seaborn | Visualizations |
 
-### Using the API
+## **📦 Installation & Setup**
 
-```bash
-# Start the API server
-python src/api/main.py
+### **Prerequisites**
 
-# In another terminal, test it
-curl -X POST "http://localhost:8000/score" \
-  -F "file=@path/to/audio.wav"
-```
+* Python 3.12+  
+* FFmpeg (for audio processing)  
+* Git
 
-### Using Python
+### **Quick Setup**
 
-```python
-from src.pipeline.grammar_scorer import GrammarScoringPipeline
+\# Clone the repository  
+git clone \[https://github.com/Venkateswara-Sahu/SHL-Grammar-Scoring-Engine.git\](https://github.com/Venkateswara-Sahu/SHL-Grammar-Scoring-Engine.git)  
+cd SHL-Grammar-Scoring-Engine
 
-# Initialize pipeline
-pipeline = GrammarScoringPipeline()
+\# Create virtual environment  
+python \-m venv venv
 
-# Score audio file
-result = pipeline.score_audio("path/to/audio.wav")
+\# Activate virtual environment  
+\# Windows  
+venv\\Scripts\\activate  
+\# Linux/Mac  
+\# source venv/bin/activate
 
-print(f"Grammar Score: {result['grammar_score']:.2f}")
-print(f"Transcription: {result['transcription']}")
-print(f"Errors Found: {len(result['errors'])}")
-```
+\# Install all dependencies  
+pip install \-r requirements.txt
 
-## 📊 Output Format
+\# Install additional requirements for notebooks  
+pip install jupyter notebook ipykernel noisereduce
 
-```json
-{
-  "grammar_score": 8.5,
-  "transcription": "This is the transcribed text.",
-  "confidence": 0.92,
-  "audio_quality": 0.87,
-  "metrics": {
-    "syntax_score": 9.0,
-    "error_count": 2,
-    "fluency_score": 8.8,
-    "readability_score": 8.2
-  },
-  "errors": [
-    {
-      "type": "grammar",
-      "message": "Subject-verb agreement error",
-      "context": "They was going",
-      "suggestion": "They were going"
-    }
-  ]
+\# Download spaCy English model  
+python \-m spacy download en\_core\_web\_sm
+
+\# Download NLTK data  
+python \-c "import nltk; nltk.download('punkt'); nltk.download('averaged\_perceptron\_tagger')"
+
+## **🚀 Quick Start**
+
+### **1\. Running the Jupyter Notebook (Recommended)**
+
+The main analysis, training, and prediction generation are in Grammar\_Scoring\_Engine.ipynb.
+
+\# Activate virtual environment  
+venv\\Scripts\\activate
+
+\# Start Jupyter Notebook  
+jupyter notebook Grammar\_Scoring\_Engine.ipynb
+
+The notebook includes:
+
+* ✅ Complete data exploration with visualizations  
+* ✅ Audio file analysis (waveforms, spectrograms)  
+* ✅ Full pipeline demonstration  
+* ✅ Training on 409 samples with RMSE & Pearson metrics  
+* ✅ Test predictions for 197 samples  
+* ✅ Calibration visualization  
+* ✅ Error analysis by score ranges  
+* ✅ submission.csv generation
+
+### **2\. Using the Pipeline Programmatically**
+
+from src.pipeline.grammar\_scorer import GrammarScoringPipeline
+
+\# Initialize pipeline  
+pipeline \= GrammarScoringPipeline()
+
+\# Score audio file (returns 0-10 scale)  
+result \= pipeline.score\_audio("path/to/audio.wav", preprocess=True)
+
+print(f"Raw Grammar Score (0-10): {result\['grammar\_score'\]:.2f}")  
+print(f"Transcription: {result\['transcription'\]}")  
+print(f"Confidence: {result\['confidence'\]:.2f}")
+
+### **3\. Using the REST API**
+
+\# Start the API server (runs on port 8001\)  
+cd src/api  
+python main.py
+
+Test the API from another terminal:
+
+\# Test the API  
+curl \-X POST "http://localhost:8001/score/audio" \\  
+  \-F "file=@path/to/audio.wav"
+
+## **📊 Project Deliverables**
+
+### **Main Files**
+
+* Grammar\_Scoring\_Engine.ipynb: ⭐ **Main Jupyter Notebook** with complete analysis, training, evaluation, and test prediction generation.  
+* submission.csv: ⭐ **Kaggle Competition Predictions** (197 test samples).  
+* data/results/training\_metrics.json: Performance metrics (RMSE, Pearson).  
+* data/results/training\_predictions.csv: Detailed results from the training set.
+
+### **Pipeline Output Format**
+
+The programmatic pipeline and API return a detailed JSON object:
+
+{  
+  "success": true,  
+  "grammar\_score": 8.37,  
+  "grade": "Very Good",  
+  "transcription": "This is the transcribed text.",  
+  "confidence": 0.92,  
+  "processing\_time": 6.24,  
+  "metrics": {  
+    "syntax\_score": 9.33,  
+    "error\_count": 1,  
+    "fluency\_score": 6.56,  
+    "readability\_score": 6.57  
+  }  
 }
-```
 
-## 🧪 Running Tests
+## **📁 Project Structure**
 
-```bash
-pytest tests/ -v --cov=src
-```
+SHL-Grammar-Scoring-Engine/  
+├── Grammar\_Scoring\_Engine.ipynb     \# ⭐ Main Jupyter Notebook (Primary Deliverable)  
+├── submission.csv                 \# ⭐ Kaggle Competition Predictions  
+│  
+├── src/                             \# Source code modules  
+│   ├── audio/  
+│   │   ├── preprocessor.py        \# Noise reduction, normalization  
+│   │   └── quality\_checker.py     \# SNR and quality metrics  
+│   ├── asr/  
+│   │   ├── whisper\_model.py       \# Whisper ASR wrapper  
+│   │   └── transcriber.py         \# Transcription service  
+│   ├── grammar/  
+│   │   ├── analyzer.py            \# Syntax, fluency, readability  
+│   │   ├── error\_detector.py      \# Grammar error detection  
+│   │   └── scorer.py              \# Weighted scoring algorithm  
+│   ├── pipeline/  
+│   │   └── grammar\_scorer.py      \# Main end-to-end pipeline  
+│   ├── api/  
+│   │   ├── main.py                \# FastAPI REST API  
+│   │   └── models.py              \# Pydantic schemas  
+│   └── utils/  
+│       ├── config.py              \# Configuration  
+│       └── metrics.py             \# Evaluation utilities  
+│  
+├── data/  
+│   ├── raw/  
+│   │   ├── train/                 \# 409 training audio files  
+│   │   ├── test/                  \# 197 test audio files  
+│   │   ├── train.csv              \# Training labels  
+│   │   └── test.csv               \# Test filenames  
+│   └── results/  
+│       ├── training\_metrics.json    \# RMSE, Pearson correlation  
+│       └── training\_predictions.csv \# Detailed results  
+│  
+├── tests/                         \# Unit tests  
+├── requirements.txt               \# Python dependencies  
+├── README.md                      \# This file  
+└── .gitignore
 
-## 📁 Project Structure
+## **🎯 Methodology**
 
-```
-SHL-Internship/
-├── src/
-│   ├── audio/
-│   │   ├── __init__.py
-│   │   ├── preprocessor.py      # Audio preprocessing
-│   │   └── quality_checker.py   # Audio quality assessment
-│   ├── asr/
-│   │   ├── __init__.py
-│   │   ├── whisper_model.py     # Whisper ASR wrapper
-│   │   └── transcriber.py       # Transcription logic
-│   ├── grammar/
-│   │   ├── __init__.py
-│   │   ├── analyzer.py          # Grammar analysis
-│   │   ├── error_detector.py    # Error detection
-│   │   └── scorer.py            # Scoring algorithms
-│   ├── pipeline/
-│   │   ├── __init__.py
-│   │   └── grammar_scorer.py    # Main pipeline
-│   ├── api/
-│   │   ├── __init__.py
-│   │   ├── main.py              # FastAPI application
-│   │   └── models.py            # Pydantic models
-│   └── utils/
-│       ├── __init__.py
-│       ├── config.py            # Configuration
-│       └── metrics.py           # Evaluation metrics
-├── notebooks/
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_model_evaluation.ipynb
-│   └── 03_error_analysis.ipynb
-├── tests/
-│   ├── test_audio.py
-│   ├── test_grammar.py
-│   └── test_pipeline.py
-├── data/
-│   ├── raw/                     # Raw audio files
-│   ├── processed/               # Processed data
-│   └── results/                 # Evaluation results
-├── models/
-│   └── whisper/                 # Cached models
-├── requirements.txt
-├── README.md
-└── .env.example
-```
+### **1\. Audio Preprocessing**
 
-## 🎯 Scoring Methodology
+* **Noise Reduction**: Spectral gating using noisereduce.  
+* **Normalization**: RMS-based audio level normalization.  
+* **Quality Assessment**: SNR calculation and clarity metrics.  
+* **Duration Check**: Validate 1-300 second audio clips.
 
-### Grammar Score (0-10 scale)
+### **2\. Speech-to-Text (ASR)**
 
-The final score is a weighted combination of:
+* **Model**: OpenAI Whisper Base (74M parameters).  
+* **Configuration**: English language, CPU inference.  
+* **Output**: Transcribed text with confidence scores.  
+* **Average Time**: \~4-5 seconds per audio file.
 
-1. **Syntax Correctness** (30%): Parse tree analysis
-2. **Grammar Errors** (30%): Error count and severity
-3. **Fluency** (20%): Speech naturalness and flow
-4. **Readability** (20%): Complexity and clarity
+### **3\. Multi-Dimensional Grammar Analysis**
 
-### Confidence Score
+A raw score (0-10 scale) is calculated as a weighted combination of:
 
-Based on:
-- Audio quality (SNR, clarity)
-- ASR confidence
-- Grammar analysis certainty
+* **Syntax Correctness (30%)**:  
+  * spaCy dependency parsing  
+  * Parse tree depth and complexity  
+  * Sentence structure validation  
+* **Grammar Errors (30%)**:  
+  * LanguageTool error detection (with spaCy fallback)  
+  * Error type classification and severity weighting  
+* **Fluency Metrics (20%)**:  
+  * Average sentence length  
+  * Word complexity  
+  * Speech pattern naturalness  
+* **Readability Scores (20%)**:  
+  * Flesch-Kincaid Grade Level  
+  * Gunning Fog Index
 
-## 🔬 Technical Approach
+### **4\. Calibration (0-10 → 1-5 Scale)**
 
-1. **Audio Preprocessing**
-   - Noise reduction
-   - Normalization
-   - Silence removal
-   - Quality assessment
+* **Model**: A Linear Regression model is trained on the 402 labeled training samples.  
+* **Task**: Maps the raw 0-10 scores to the final 1-5 MOS Likert scale.  
+* **Formula**: predicted\_label \= slope × raw\_score \+ intercept  
+* **Constraint**: Predictions are clipped to the valid range \[1, 5\].
 
-2. **Speech Recognition**
-   - Whisper (base/small/medium models)
-   - Confidence scoring
-   - Word-level timestamps
+### **5\. Evaluation Metrics**
 
-3. **Grammar Analysis**
-   - LanguageTool for error detection
-   - spaCy for syntax analysis
-   - NLTK for additional metrics
-   - Custom scoring algorithms
+* **RMSE (Root Mean Square Error)**: 0.76  
+* **Pearson Correlation**: 0.084  
+* **MAE (Mean Absolute Error)**: 0.55  
+* **Processing Success Rate**: 98.3% (402/409 samples)
 
-4. **Evaluation**
-   - Precision, recall, F1 for error detection
-   - Correlation with human ratings
-   - Error type distribution
+## **📈 Performance Metrics**
 
-## 📈 Performance
+| Metric | Value |
+| :---- | :---- |
+| Average Processing Time | \~6 seconds per audio file |
+| Training Success Rate | 98.3% (402/409) |
+| Test Predictions | 197 samples |
+| **RMSE (Training)** | **0.7604** |
+| **Pearson Correlation** | **0.0836** |
+| Mean Absolute Error | 0.5513 |
+| Mean Predicted Score | \~2.5-3.0 (1-5 scale) |
 
-- Average transcription time: ~2s per minute of audio
-- Grammar analysis: ~0.5s per transcript
-- API response time: <5s for typical audio samples
+## **🎓 Key Insights**
 
-## 🛠️ Technologies Used
+* **Multi-dimensional analysis** works better than single-metric scoring.  
+* **Calibration is crucial** for mapping different score scales.  
+* **Audio quality** significantly impacts transcription accuracy.  
+* **Whisper base model** provides a good balance of speed and accuracy.  
+* **Fallback mechanisms** improve robustness (e.g., spaCy when LanguageTool fails).
 
-- **Whisper**: State-of-the-art ASR
-- **spaCy**: NLP and syntax analysis
-- **LanguageTool**: Grammar checking
-- **FastAPI**: High-performance API
-- **PyTorch**: Deep learning framework
-- **librosa**: Audio analysis
+## **🚧 Future Improvements**
 
-## 📝 License
+* Fine-tune Whisper on domain-specific data.  
+* Incorporate acoustic features (pitch, energy, speaking rate).  
+* Ensemble methods combining multiple scoring approaches.  
+* Speaker normalization for accent/dialect variations.  
+* GPU acceleration for faster processing.
 
-MIT
+## **👤 Author & Submission**
 
-## 👤 Author
+* **Venkateswara Sahu**  
+* **GitHub**: [@Venkateswara-Sahu](https://www.google.com/search?q=https://github.com/Venkateswara-Sahu)  
+* **Repository**: [https://github.com/Venkateswara-Sahu/SHL-Grammar-Scoring-Engine](https://github.com/Venkateswara-Sahu/SHL-Grammar-Scoring-Engine)  
+* **Submission Date**: November 9, 2025
 
-**Your Name**
-- Email: your.email@example.com
-- GitHub: @yourusername
+## **🙏 Acknowledgments**
 
-## 🙏 Acknowledgments
+* SHL Team for the challenging assessment opportunity  
+* OpenAI for the Whisper ASR model  
+* spaCy team for excellent NLP tools  
+* Kaggle for hosting the competition
 
-- SHL AI Team for the opportunity
-- OpenAI for Whisper
-- The open-source community
+## **📝 License**
 
----
-
-*Built with ❤️ for SHL AI Research Intern Assessment*
+This project is submitted as part of the SHL Intern Hiring Assessment 2025\.
